@@ -2,11 +2,8 @@ import { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 class Details extends Component {
-  constructor() {
-    super();
-
-    this.state = { loading: true };
-  }
+  // allowed by using @babel/plugin-proposal-class-properties
+  state = { loading: true };
 
   async componentDidMount() {
     const res = await fetch(
