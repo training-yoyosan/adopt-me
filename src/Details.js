@@ -25,17 +25,17 @@ class Details extends Component {
 
   render() {
     if (this.state.loading) {
-      return <h2 style={{ textAlign: "center" }}>loading ...</h2>;
+      return <h2 className="text-center">loading ...</h2>;
     }
 
     const { animal, breed, city, state, description, name, images, showModal } =
       this.state;
 
     return (
-      <div className="details">
+      <div>
         <Carousel images={images} />
-        <div>
-          <h1>{name}</h1>
+        <div className="flex flex-col gap-2 justify-center w-6/12 items-center mx-auto bg-gray-300 rounded p-3 my-3">
+          <h1 className="text-2xl font-bold">{name}</h1>
           <h2>
             {animal} - {breed} - {city}, {state}
           </h2>
@@ -44,12 +44,13 @@ class Details extends Component {
               <button
                 onClick={this.toggleModal}
                 style={{ backgroundColor: theme }}
+                className="search-control text-white"
               >
                 Adopt {name}
               </button>
             )}
           </ThemeContext.Consumer>
-          <p>{description}</p>
+          <p className="text-center">{description}</p>
           {showModal ? (
             <Modal>
               <div>
