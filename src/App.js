@@ -1,16 +1,15 @@
 import ReactDOM from "react-dom";
-import { lazy, StrictMode, Suspense, useState } from "react";
+import { lazy, StrictMode, Suspense } from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import ThemeContext from "./ThemeContext";
+import { Provider } from "react-redux";
+import store from "./store";
 
 const Details = lazy(() => import("./Details"));
 const SearchParams = lazy(() => import("./SearchParams"));
 
 const App = () => {
-  const theme = useState("darkblue");
-
   return (
-    <ThemeContext.Provider value={theme}>
+    <Provider store={store}>
       <div
         className="p-0 m-0 w-full min-h-screen"
         style={{
@@ -36,7 +35,7 @@ const App = () => {
           </Router>
         </Suspense>
       </div>
-    </ThemeContext.Provider>
+    </Provider>
   );
 };
 

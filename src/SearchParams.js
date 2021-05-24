@@ -1,17 +1,26 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useBreedList from "./useBreed";
 import Results from "./Results";
-import ThemeContext from "./ThemeContext";
+import changeLocation from "./actionCreators/changeLocation";
+import changeAnimal from "./actionCreators/changeAnimal";
+import changeBreed from "./actionCreators/changeBreed";
+import changeTheme from "./actionCreators/changeTheme";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-  const [location, setLocation] = useState("");
-  const [animal, setAnimal] = useState("");
-  const [breed, setBreed] = useState("");
+  const location = useSelector((state) => state.location);
+  const animal = useSelector((state) => state.animal);
+  const breed = useSelector((state) => state.breed);
+  const theme = useSelector((state) => state.theme);
+
+  // or use - BUT beware of the size of state
+  // const { location, animal, breed, theme } = state;
+
   const [pets, setPets] = useState([]);
   const [breeds] = useBreedList(animal);
-  const [theme, setTheme] = useContext(ThemeContext);
+  const dispatch = useDispatch();
 
   async function requestPets() {
     const res = await fetch(
@@ -21,6 +30,11 @@ const SearchParams = () => {
     const json = await res.json();
 
     setPets(json.pets);
+  }
+
+  function handleAnimalChange(e) {
+    dispatch(changeBreed(""));
+    dispatch(changeAnimal(e.target.value));
   }
 
   useEffect(
@@ -47,7 +61,7 @@ const SearchParams = () => {
           <input
             className="search-control"
             id="location"
-            onChange={(e) => setLocation(e.target.value)}
+            onChange={(e) => dispatch(changeLocation(e.target.value))}
             value={location}
             placeholder="Location"
           />
@@ -58,8 +72,8 @@ const SearchParams = () => {
             className="search-control"
             id="animal"
             value={animal}
-            onChange={(e) => setAnimal(e.target.value)}
-            onBlur={(e) => setAnimal(e.target.value)}
+            onChange={handleAnimalChange}
+            onBlur={handleAnimalChange}
           >
             <option />
             {ANIMALS.map((animal, index) => (
@@ -76,8 +90,8 @@ const SearchParams = () => {
             id="breed"
             disabled={!breeds.length}
             value={breed}
-            onChange={(e) => setBreed(e.target.value)}
-            onBlur={(e) => setBreed(e.target.value)}
+            onChange={(e) => dispatch(changeBreed(e.target.value))}
+            onBlur={(e) => dispatch(changeBreed(e.target.value))}
           >
             <option />
             {breeds.map((breed, index) => (
@@ -92,8 +106,8 @@ const SearchParams = () => {
           <select
             className="search-control"
             value={theme}
-            onChange={(e) => setTheme(e.target.value)}
-            onBlur={(e) => setTheme(e.target.value)}
+            onChange={(e) => dispatch(changeTheme(e.target.value))}
+            onBlur={(e) => dispatch(changeTheme(e.target.value))}
           >
             <option value="darkblue">Dark Blue</option>
             <option value="peru">Peru</option>
