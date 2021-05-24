@@ -33,8 +33,10 @@ const SearchParams = () => {
   }
 
   function handleAnimalChange(e) {
-    dispatch(changeBreed(""));
-    dispatch(changeAnimal(e.target.value));
+    if (animal !== e.target.value) {
+      dispatch(changeBreed(""));
+      dispatch(changeAnimal(e.target.value));
+    }
   }
 
   useEffect(
