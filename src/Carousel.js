@@ -21,13 +21,19 @@ class Carousel extends Component {
 
     return (
       <div className="flex justify-center items-start gap-2 mx-auto">
-        <img src={images[active]} alt="animal" className="rounded max-h-96" />
+        <img
+          src={images[active]}
+          data-testid="hero"
+          alt="animal"
+          className="rounded max-h-96"
+        />
         <div className="grid gap-3 grid-cols-5">
           {images.map((photo, index) => (
             // eslint-disable-next-line
             <img
               data-index={index}
               onClick={this.handleIndexClick}
+              data-testid={`thumbnail${index}`}
               key={photo}
               src={photo}
               className={(index === active ? "active" : "") + " max-h-24"}
